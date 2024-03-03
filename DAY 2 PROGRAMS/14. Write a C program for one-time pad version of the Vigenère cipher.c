@@ -3,7 +3,7 @@
 #include <ctype.h>
 #include <string.h>
  
-// Function to encrypt plaintext using one-time pad Vigenère cipher
+// Function to encrypt plaintext using one-time pad VigenÃ¨re cipher
 void encrypt(char *plaintext, int *key, char *ciphertext) {
     int i;
     int key_length = strlen(plaintext); // Use plaintext length as key length
