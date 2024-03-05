@@ -1,13 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
-
-// Function prototypes
 int gcd(int a, int b);
 int modInverse(int e, int phi);
 int modPow(int base, int exponent, int mod);
 
 int main() {
-    // Warning: These are small primes for demonstration. Real RSA uses much larger primes.
     int p = 61;
     int q = 53;
     int n = p * q;
@@ -19,8 +16,6 @@ int main() {
         printf("No modular inverse found. Exiting.\n");
         return 1;
     }
-
-    // Example encryption and decryption
     int message = 42; // The original message to be encrypted
     int encrypted = modPow(message, e, n);
     int decrypted = modPow(encrypted, d, n);
@@ -31,15 +26,11 @@ int main() {
 
     return 0;
 }
-
-// Function to compute the greatest common divisor (Euclidean algorithm)
 int gcd(int a, int b) {
     if (b == 0)
         return a;
     return gcd(b, a % b);
 }
-
-// Function to compute the modular inverse
 int modInverse(int e, int phi) {
 	int x;
     e = e % phi;
@@ -49,8 +40,6 @@ int modInverse(int e, int phi) {
     }
     return -1;
 }
-
-// Function to compute base^exponent % mod
 int modPow(int base, int exponent, int mod) {
     int result = 1;
     while (exponent > 0) {
