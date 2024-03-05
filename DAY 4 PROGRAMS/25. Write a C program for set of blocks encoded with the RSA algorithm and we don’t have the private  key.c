@@ -1,28 +1,41 @@
 #include <stdio.h>
 #include <stdlib.h>
-long long gcd(long long a, long long b) {
-    while (b != 0) {
-        long long t = b;
-        b = a % b;
-        a = t;
+
+
+int gcd(int a, int b) {
+    if (b == 0)
+        return a;
+    return gcd(b, a % b);
+}
+
+
+int rsa_encrypt(int plaintext, int e, int n) {
+    int ciphertext = 1;
+    for (int i = 0; i < e; i++) {
+        ciphertext = (ciphertext * plaintext) % n;
     }
-    return a;
+    return ciphertext;
 }
 
 int main() {
-    long long n; 
-    long long block; 
-    printf("Enter n (pq): ");
-    scanf("%lld", &n);
     
-    printf("Enter the block: ");
-    scanf("%lld", &block);
-    long long factor = gcd(n, block);
-    if (factor > 1) {
-        printf("Found a non-trivial common factor of n and the block: %lld\n", factor);
-        printf("This factor can potentially be used to factorize n and break the RSA encryption.\n");
-    } else {
-        printf("No non-trivial common factor found between n and the block.\n");
+    int p = 61;
+    int q = 53;
+    int n = p * q;
+    int e = 17;
+
+    
+    int plaintext_blocks[] = {123, 456, 789, 1111};
+
+    
+    printf("Plaintext Blocks:\n");
+    for (int i = 0; i < sizeof(plaintext_blocks) / sizeof(plaintext_blocks[0]); i++) {
+        printf("%d ", plaintext_blocks[i]);
+    }
+    printf("\n\nCiphertext Blocks:\n");
+    for (int i = 0; i < sizeof(plaintext_blocks) / sizeof(plaintext_blocks[0]); i++) {
+        int ciphertext = rsa_encrypt(plaintext_blocks[i], e, n);
+        printf("%d ", ciphertext);
     }
 
     return 0;
