@@ -3,23 +3,18 @@
 
 #define BLOCK_SIZE 8
 
-// Mock S-DES encryption function (for educational purposes)
 void sdes_encrypt(int plaintext[BLOCK_SIZE], int key[10], int ciphertext[BLOCK_SIZE]) {
 	int i;
-    // This should be replaced with the actual S-DES encryption steps.
-    // For the sake of demonstration, we'll simulate it with a simple operation.
+
     for (i = 0; i < BLOCK_SIZE; ++i) {
         ciphertext[i] = plaintext[i] ^ ((key[i % 10] + i) % 2);
     }
 }
-
-// Mock S-DES decryption function (symmetric with the mock encryption for demonstration)
 void sdes_decrypt(int ciphertext[BLOCK_SIZE], int key[10], int plaintext[BLOCK_SIZE]) {
     // Since our mock encryption is symmetric, decryption is the same
     sdes_encrypt(ciphertext, key, plaintext);
 }
 
-// XOR operation for two blocks of binary data
 void xor_blocks(int block1[BLOCK_SIZE], int block2[BLOCK_SIZE], int result[BLOCK_SIZE]) {
 	int i;
     for (i = 0; i < BLOCK_SIZE; ++i) {
@@ -27,7 +22,6 @@ void xor_blocks(int block1[BLOCK_SIZE], int block2[BLOCK_SIZE], int result[BLOCK
     }
 }
 
-// CBC mode encryption using S-DES
 void cbc_encrypt(int plaintext[][BLOCK_SIZE], int key[10], int iv[BLOCK_SIZE], int ciphertext[][BLOCK_SIZE], int num_blocks) {
     int temp[BLOCK_SIZE],i;
 
@@ -41,7 +35,6 @@ void cbc_encrypt(int plaintext[][BLOCK_SIZE], int key[10], int iv[BLOCK_SIZE], i
     }
 }
 
-// CBC mode decryption using S-DES
 void cbc_decrypt(int ciphertext[][BLOCK_SIZE], int key[10], int iv[BLOCK_SIZE], int plaintext[][BLOCK_SIZE], int num_blocks) {
     int temp[BLOCK_SIZE],i;
 
@@ -56,15 +49,13 @@ void cbc_decrypt(int ciphertext[][BLOCK_SIZE], int key[10], int iv[BLOCK_SIZE], 
 }
 
 int main() {
-    // Test data
+
     int plaintext[2][BLOCK_SIZE] = {{0, 0, 0, 0, 0, 0, 0, 1}, {0, 0, 1, 0, 0, 0, 1, 1}};
     int key[10] = {0, 1, 1, 1, 1, 1, 1, 1, 0, 1};
     int iv[BLOCK_SIZE] = {1, 0, 1, 0, 1, 0, 1, 0};
     int ciphertext[2][BLOCK_SIZE];
     int decrypted[2][BLOCK_SIZE];
     int num_blocks = 2;
-
-    // Encrypt
     cbc_encrypt(plaintext, key, iv, ciphertext, num_blocks);
     int i,j;
     printf("Ciphertext:\n");
@@ -74,8 +65,6 @@ int main() {
         }
         printf("\n");
     }
-
-    // Decrypt
     cbc_decrypt(ciphertext, key, iv, decrypted, num_blocks);
     printf("Decrypted Text:\n");
     for (i = 0; i < num_blocks; ++i) {
