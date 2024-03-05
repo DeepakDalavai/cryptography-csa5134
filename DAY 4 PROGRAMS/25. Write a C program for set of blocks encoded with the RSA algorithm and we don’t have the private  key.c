@@ -1,7 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-
-// Function to compute the Greatest Common Divisor (GCD) using the Euclidean algorithm
 long long gcd(long long a, long long b) {
     while (b != 0) {
         long long t = b;
@@ -13,16 +11,12 @@ long long gcd(long long a, long long b) {
 
 int main() {
     long long n; 
-    long long block; // The block which is suspected to have a common factor with n
-    
-    // Assuming n and the block are given
+    long long block; 
     printf("Enter n (pq): ");
     scanf("%lld", &n);
     
     printf("Enter the block: ");
     scanf("%lld", &block);
-    
-    // Find and print the GCD
     long long factor = gcd(n, block);
     if (factor > 1) {
         printf("Found a non-trivial common factor of n and the block: %lld\n", factor);
