@@ -1,29 +1,30 @@
-from Crypto.Cipher import DES3
-from Crypto.Random import get_random_bytes
-def pad(text, block_size):
- padding_size = block_size - len(text) % block_size
- padding = bytes([padding_size] * padding_size)
- return text + padding
-def encrypt_3des_cbc(plaintext, key):
- iv = get_random_bytes(8) # Initialization vector
- cipher = DES3.new(key, DES3.MODE_CBC, iv)
- ciphertext = cipher.encrypt(pad(plaintext, 8))
- return iv + ciphertext
-def decrypt_3des_cbc(ciphertext, key):
- iv = ciphertext[:8]
- ciphertext = ciphertext[8:]
- cipher = DES3.new(key, DES3.MODE_CBC, iv)
- decrypted = cipher.decrypt(ciphertext)
- padding_size = decrypted[-1]
- return decrypted[:-padding_size]
-def main():
- key = get_random_bytes(24) # 3DES requires a 24-byte key
- plaintext = "Hello, this is a test message."
-[10:13, 21/11/2023] Rithu Chowdary ??: plaintext = plaintext.encode('utf-8')
- encrypted = encrypt_3des_cbc(plaintext, key)
- decrypted = decrypt_3des_cbc(encrypted, key).decode('utf-8')
- print("Plaintext:", plaintext)
- print("Encrypted:", encrypted.hex())
- print("Decrypted:", decrypted)
-if name== "main":
- main()
+#include <stdio.h>
+#include <string.h>
+#include <openssl/des.h>
+
+int main() {
+    unsigned char key[24] = {0x01, 0x23, 0x45, 0x67, 0x89, 0xab, 0xcd, 0xef,
+                             0xfe, 0xdc, 0xba, 0x98, 0x76, 0x54, 0x32, 0x10,
+                             0x01, 0x23, 0x45, 0x67, 0x89, 0xab, 0xcd, 0xef};
+
+    unsigned char iv[8] = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07};
+
+    unsigned char plaintext[8] = {0x00, 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77};
+    unsigned char ciphertext[8];
+    unsigned char decryptedtext[8];
+
+    DES_key_schedule ks1, ks2, ks3;
+
+    DES_set_key_checked(&key[0], &ks1);
+    DES_set_key_checked(&key[8], &ks2);
+    DES_set_key_checked(&key[16], &ks3);
+
+    DES_ncbc_encrypt(plaintext, ciphertext, 8, &ks1, iv, DES_ENCRYPT);
+    DES_ncbc_encrypt(ciphertext, decryptedtext, 8, &ks3, iv, DES_DECRYPT);
+
+    printf("Original Text:  %s\n", plaintext);
+    printf("3DES CBC Text:  %s\n", ciphertext);
+    printf("Decrypted Text: %s\n", decryptedtext);
+
+    return 0;
+}
