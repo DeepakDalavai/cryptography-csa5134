@@ -27,7 +27,7 @@ int modPow(int base, int exponent, int mod) {
 }
 
 int main() {
-    // Simplified example; use large primes in real applications
+    
     int p = 68, q = 83;
     int n = p * q;
     int phi = (p - 1) * (q - 1);
